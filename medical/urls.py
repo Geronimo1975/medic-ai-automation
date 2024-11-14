@@ -1,6 +1,14 @@
+# medical/urls.py
 from django.urls import path
-from . import views  # importă views dacă ai definit vreun view
+from . import views
+from django.urls import path, include
 
 urlpatterns = [
-    path('', views.home, name='home'),  # exemplu de rută pentru view-ul home din views.py
+    path('medical/', include('medical.urls')),  # include toate rutele din aplicația `medical`
+    # alte rute globale...
+]
+
+urlpatterns = [
+    path('adauga-pacient/', views.adauga_pacient, name='adauga_pacient'),
+    # alte rute...
 ]

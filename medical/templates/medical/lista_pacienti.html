@@ -1,0 +1,6 @@
+<h2>Lista Pacienților</h2>
+<ul>
+    {% for pacient in pacienti %}
+        <li>{{ pacient.nume }} {{ pacient.prenume }} - {{ pacient.diagnostic }}</li>
+    {% endfor %}
+</ul>
