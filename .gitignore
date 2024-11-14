@@ -1,0 +1,28 @@
+# Exclude folderul virtual environment
+venv/
+
+# Fișiere cache generate automat de Python
+__pycache__/
+*.py[cod]
+
+# Fișiere de configurare care pot conține parole sau alte informații sensibile
+*.env
+.env
+
+# Fișiere de baze de date SQLite
+db.sqlite3
+
+# Fișiere de log-uri
+*.log
+
+# Fișierele statice și media încărcate de utilizatori (dacă sunt generate local)
+/static/
+/media/
+
+# Fișiere și foldere create de sistemul de operare
+.DS_Store
+Thumbs.db
+
+# Fișiere de configurare pentru editori de text
+.vscode/
+.idea/
