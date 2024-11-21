@@ -1,0 +1,35 @@
+<!-- medical_ai/templates/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <div id="chat-box">
+        <!-- Mesajele vor fi afișate aici -->
+    </div>
+    <input type="text" id="user-input" placeholder="Scrie un mesaj...">
+    <button onclick="sendMessage()">Trimite</button>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            const response = await fetch("{% url 'chat_response' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}",  // Asigură-te că CSRF token este inclus
+                },
+                body: "message=" + encodeURIComponent(userInput)
+            });
+            const data = await response.json();
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<p><strong>Tu:</strong> ${userInput}</p>`;
+            chatBox.innerHTML += `<p><strong>Chatbot:</strong> ${data.response}</p>`;
+            document.getElementById("user-input").value = "";
+        }
+    </script>
+</body>
+</html>

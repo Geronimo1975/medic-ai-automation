@@ -1,0 +1,58 @@
+<!-- templates/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Chatbot Medical</h2>
+    <div id="chat-box">
+        <div id="chat-content"></div>
+        <input type="text" id="user-input" placeholder="Scrie un mesaj..." autocomplete="off">
+        <button id="send-btn">Trimite</button>
+    </div>
+
+    <!-- Cod pentru obținerea token-ului CSRF din cookie -->
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        // Configurează AJAX să includă CSRF token în cererile POST
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        // Funcția de trimitere a mesajului utilizatorului
+        $("#send-btn").click(function() {
+            const userMessage = $("#user-input").val();
+            $("#chat-content").append(`<div><b>Tu:</b> ${userMessage}</div>`);
+            $("#user-input").val("");
+
+            // Trimiterea mesajului către server
+            $.post("/chat/", { message: userMessage }, function(data) {
+                $("#chat-content").append(`<div><b>Chatbot:</b> ${data.response}</div>`);
+            });
+        });
+    </script>
+</body>
+</html>

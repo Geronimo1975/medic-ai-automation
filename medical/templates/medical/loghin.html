@@ -1,24 +1,22 @@
-<!-- login.html -->
+<!-- templates/registration/login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logare</title>
+    <title>Login</title>
 </head>
 <body>
-    <h2>Logare</h2>
+    <h2>Login</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Logare</button>
+        <button type="submit">Login</button>
     </form>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
+    {% if form.non_field_errors %}
+        <div class="error">
+            {{ form.non_field_errors }}
+        </div>
     {% endif %}
 </body>
 </html>

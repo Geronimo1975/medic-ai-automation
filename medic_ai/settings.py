@@ -9,11 +9,12 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-od=loqrl2vze@*+m=txxna51aqcdhg(=b&gi22+tib8r#os$hf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# Setări de securitate - nu lăsați DEBUG=True în producție
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -32,22 +34,22 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 # Application definition
-
+# Definirea aplicațiilor instalate - include aplicația 'medical' pentru gestionarea pacienților
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'medical',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'medical',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # Asigură-te că este activ
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -55,11 +57,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'medic_ai.urls'
 
+# settings.py
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,  # Aceasta trebuie să fie True
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -70,6 +74,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'medic_ai.wsgi.application'
 
@@ -88,7 +93,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS = [    # Validează parola utilizatorului pentru a se asigura că este sigură și nu poate fi ghicită
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -107,13 +112,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-us' # Codul limbii utilizat în aplicație
+# Language code for this installation. Represented in standard language ID format. For example, U.S. English is en-us.
+# See https://docs.djangoproject.com/en/5.1/topics/i18n/internationalization/#term-language-code
+TIME_ZONE = 'UTC'       # Fusul orar utilizat în aplicație
 
-TIME_ZONE = 'UTC'
+USE_I18N = True         # Activează traducerea în aplicație
 
-USE_I18N = True
-
-USE_TZ = True
+USE_TZ = True           # Activează utilizarea fusului orarului
 
 
 # Static files (CSS, JavaScript, Images)

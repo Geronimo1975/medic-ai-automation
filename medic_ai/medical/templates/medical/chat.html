@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Medical</title>
+    <style>
+        /* Stiluri pentru chat */
+    </style>
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById("user_message").value;
+            const responseBox = document.getElementById("response");
+            
+            // Afișează mesajul utilizatorului
+            const userMessageDiv = document.createElement("div");
+            userMessageDiv.className = "user-message";
+            userMessageDiv.textContent = "Tu: " + message;
+            responseBox.appendChild(userMessageDiv);
+
+            // Trimitere cerere către API-ul ChatBot-ului
+            const response = await fetch('/chatbot-response/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `message=${encodeURIComponent(message)}`
+            });
+            
+            const data = await response.json();
+            const botMessageDiv = document.createElement("div");
+            botMessageDiv.className = "bot-message";
+            botMessageDiv.textContent = "ChatBot: " + data.response;
+            responseBox.appendChild(botMessageDiv);
+        }
+    </script>
+</head>
+<body>
+    <h1>ChatBot Medical</h1>
+    <div id="response" class="chat-box"></div>
+    <input type="text" id="user_message" placeholder="Introdu mesajul...">
+    <button onclick="sendMessage()">Trimite</button>
+</body>
+</html>
